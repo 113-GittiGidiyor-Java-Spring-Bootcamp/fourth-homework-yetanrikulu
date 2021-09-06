@@ -1,5 +1,6 @@
 package com.example.fourthhomeworkyetanrikulu.controller;
 
+import com.example.fourthhomeworkyetanrikulu.dto.StudentDTO;
 import com.example.fourthhomeworkyetanrikulu.entity.Student;
 import com.example.fourthhomeworkyetanrikulu.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,13 +29,13 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> save(@RequestBody Student student) {
-        return new ResponseEntity<>(studentService.save(student), HttpStatus.CREATED);
+    public ResponseEntity<Student> save(@RequestBody @Valid StudentDTO studentDTO) {
+        return new ResponseEntity<>(studentService.save(studentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Student> update(@RequestBody Student student) {
-        return new ResponseEntity<>(studentService.update(student), HttpStatus.OK);
+    public ResponseEntity<Student> update(@RequestBody @Valid StudentDTO studentDTO) {
+        return new ResponseEntity<>(studentService.update(studentDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteById/{id}")
@@ -42,8 +44,8 @@ public class StudentController {
     }
 
     @DeleteMapping
-    public void deleteByObject(@RequestBody Student student) {
-        studentService.deleteByObject(student);
+    public void deleteByObject(@RequestBody StudentDTO studentDTO) {
+        studentService.deleteByObject(studentDTO);
     }
 
     @GetMapping("/nameInclude/{name}")

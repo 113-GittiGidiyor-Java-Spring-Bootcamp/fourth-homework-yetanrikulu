@@ -2,6 +2,7 @@ package com.example.fourthhomeworkyetanrikulu.dto;
 
 import com.example.fourthhomeworkyetanrikulu.entity.Instructor;
 import com.example.fourthhomeworkyetanrikulu.entity.Student;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +17,14 @@ import java.util.List;
 @NoArgsConstructor
 public class CourseDTO {
 
+    @ApiModelProperty(hidden = true)
+    private long id;
 
-    @NotBlank
+    @NotBlank(message = "Course name is mandatory.")
     private String courseName;
-    @NotBlank
+    @NotBlank (message = "Course code is mandatory.")
     private String courseCode;
-    @NotNull
+    @NotNull(message = "Credit score is mandatory.")
     private int creditScore;
 
     private Instructor instructor;

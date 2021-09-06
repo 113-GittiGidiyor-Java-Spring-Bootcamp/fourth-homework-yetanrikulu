@@ -16,12 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Student extends Person {
-    private LocalDate birthDate;
+    private String birthDate;
     private String gender;
     @ManyToMany(cascade = {CascadeType.ALL})
     private List<Course> courseList = new ArrayList<>();
 
-    public Student(String name, String address, LocalDate birthDate, String gender) {
+    public Student(String name, String address, String birthDate, String gender) {
         setName(name);
         setAddress(address);
         setBirthDate(birthDate);

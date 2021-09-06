@@ -1,5 +1,6 @@
 package com.example.fourthhomeworkyetanrikulu.controller;
 
+import com.example.fourthhomeworkyetanrikulu.dto.CourseDTO;
 import com.example.fourthhomeworkyetanrikulu.entity.Course;
 import com.example.fourthhomeworkyetanrikulu.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,13 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<Course> save(@RequestBody Course course) {
-        return new ResponseEntity<>(courseService.save(course), HttpStatus.CREATED);
+    public ResponseEntity<Course> save(@RequestBody CourseDTO courseDTO) {
+        return new ResponseEntity<>(courseService.save(courseDTO), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Course> update(@RequestBody Course course) {
-        return new ResponseEntity<>(courseService.update(course), HttpStatus.OK);
+    public ResponseEntity<Course> update(@RequestBody CourseDTO courseDTO) {
+        return new ResponseEntity<>(courseService.update(courseDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteById/{id}")

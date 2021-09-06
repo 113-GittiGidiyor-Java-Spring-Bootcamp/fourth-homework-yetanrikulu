@@ -1,10 +1,16 @@
 package com.example.fourthhomeworkyetanrikulu.service;
 
+import com.example.fourthhomeworkyetanrikulu.dto.StudentDTO;
 import com.example.fourthhomeworkyetanrikulu.entity.Student;
+import com.example.fourthhomeworkyetanrikulu.exception.StudentAgeNotValidException;
+import com.example.fourthhomeworkyetanrikulu.mapper.GlobalMapper;
 import com.example.fourthhomeworkyetanrikulu.repository.StudentRepository;
+import com.example.fourthhomeworkyetanrikulu.util.DateFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +19,7 @@ import java.util.List;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final GlobalMapper globalMapper;
 
 
     public List<Student> findAll() {
@@ -25,20 +32,28 @@ public class StudentService {
         return studentRepository.findById(id).get();
     }
 
-    public Student save(Student student) {
+    public Student save(StudentDTO studentDTO) {
+
+        Student student = globalMapper.mapFromStudentDTOtoStudent(studentDTO);
+        LocalDate birthday = DateFormatter.convertStringToLocalDate(student.getBirthDate());
+        long diff = ChronoUnit.YEARS.between(birthday, LocalDate.now());
+
+        if (diff < 18 || diff > 40) {
+            throw new StudentAgeNotValidException();
+        }
         return studentRepository.save(student);
     }
 
-    public Student update(Student student) {
-        return save(student);
+    public Student update(StudentDTO studentDTO) {
+        return save(studentDTO);
     }
 
     public void deleteById(long id) {
         studentRepository.deleteById(id);
     }
 
-    public void deleteByObject(Student student) {
-        long id = student.getId();
+    public void deleteByObject(StudentDTO studentDTO) {
+        long id = studentDTO.getId();
         deleteById(id);
     }
 

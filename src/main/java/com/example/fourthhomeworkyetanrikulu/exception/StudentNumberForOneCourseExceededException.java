@@ -1,7 +1,7 @@
 package com.example.fourthhomeworkyetanrikulu.exception;
 
 public class StudentNumberForOneCourseExceededException extends RuntimeException {
-    public StudentNumberForOneCourseExceededException(String message) {
-        super(message);
+    public StudentNumberForOneCourseExceededException() {
+        super("Maximum of 20 students can take a course at the same time.");
     }
 }

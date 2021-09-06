@@ -19,4 +19,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
     @Query(value = "delete from Course c where c.courseName=:name")
     void deleteCourseByCourseName(String name);
 
+    boolean existsByCourseCode(String courseCode);
+
 }
