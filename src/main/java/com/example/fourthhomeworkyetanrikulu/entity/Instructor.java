@@ -22,7 +22,6 @@ import java.util.List;
         @JsonSubTypes.Type(value = PermanentInstructor.class, name = "PermanentInstructor"),
         @JsonSubTypes.Type(value = VisitingResearcher.class, name = "VisitingResearcher")
 })
-@MappedSuperclass
 public class Instructor extends Person {
     private String phoneNumber;
 

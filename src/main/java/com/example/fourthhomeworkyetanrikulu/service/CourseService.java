@@ -1,8 +1,11 @@
 package com.example.fourthhomeworkyetanrikulu.service;
 
 import com.example.fourthhomeworkyetanrikulu.dto.CourseDTO;
+import com.example.fourthhomeworkyetanrikulu.dto.StudentDTO;
 import com.example.fourthhomeworkyetanrikulu.entity.Course;
+import com.example.fourthhomeworkyetanrikulu.entity.Student;
 import com.example.fourthhomeworkyetanrikulu.exception.CourseIsAlreadyExistException;
+import com.example.fourthhomeworkyetanrikulu.exception.StudentNumberForOneCourseExceededException;
 import com.example.fourthhomeworkyetanrikulu.mapper.GlobalMapper;
 import com.example.fourthhomeworkyetanrikulu.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +50,8 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public void deleteByObject(Course course) {
-        long id = course.getId();
+    public void deleteByObject(CourseDTO courseDTO) {
+        long id = courseDTO.getId();
         deleteById(id);
     }
 
@@ -58,5 +61,22 @@ public class CourseService {
 
     public void deleteByName(String name) {
         courseRepository.deleteCourseByCourseName(name);
+    }
+
+    public Course addStudentToCourse(StudentDTO studentDTO, long courseId){
+        Course course = courseRepository.findById(courseId).get();
+
+        List<Student> studentList = course.getStudentList();
+
+        if(studentList.size()==20){
+            throw new StudentNumberForOneCourseExceededException();
+        }
+        Student student = globalMapper.mapFromStudentDTOtoStudent(studentDTO);
+        studentList.add(student);
+
+        return courseRepository.save(course);
+
+
+
     }
 }

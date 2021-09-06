@@ -1,7 +1,11 @@
 package com.example.fourthhomeworkyetanrikulu.service;
 
+import com.example.fourthhomeworkyetanrikulu.dto.InstructorDTO;
 import com.example.fourthhomeworkyetanrikulu.entity.Instructor;
+import com.example.fourthhomeworkyetanrikulu.exception.InstructorIsAlreadyExistException;
+import com.example.fourthhomeworkyetanrikulu.mapper.GlobalMapper;
 import com.example.fourthhomeworkyetanrikulu.repository.InstructorRepository;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,7 @@ import java.util.List;
 public class InstructorService {
 
     private final InstructorRepository instructorRepository;
+    private final GlobalMapper globalMapper;
 
 
     public List<Instructor> findAll() {
@@ -25,20 +30,32 @@ public class InstructorService {
         return instructorRepository.findById(id).get();
     }
 
-    public Instructor save(Instructor instructor) {
-        return instructorRepository.save(instructor);
+    public Instructor save(InstructorDTO instructorDTO) {
+
+        if (instructorRepository.existsByPhoneNumber(instructorDTO.getPhoneNumber())){
+            throw new InstructorIsAlreadyExistException();
+        }
+
+        Instructor instructor = null;
+        if (instructorDTO.getType().equals("PermanentInstructor")){
+            instructor = globalMapper.mapToPermanent(instructorDTO);
+        }
+        if (instructorDTO.getType().equals("VisitingResearcher")){
+            instructor = globalMapper.mapToVisiting(instructorDTO);
+        }
+        return instructor==null? null:instructorRepository.save(instructor);
     }
 
-    public Instructor update(Instructor instructor) {
-        return save(instructor);
+    public Instructor update(InstructorDTO instructorDTO) {
+        return save(instructorDTO);
     }
 
     public void deleteById(long id) {
         instructorRepository.deleteById(id);
     }
 
-    public void deleteByObject(Instructor instructor) {
-        long id = instructor.getId();
+    public void deleteByObject(InstructorDTO instructorDTO) {
+        long id = instructorDTO.getId();
         deleteById(id);
     }
 

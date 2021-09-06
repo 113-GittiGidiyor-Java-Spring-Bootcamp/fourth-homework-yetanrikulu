@@ -19,5 +19,7 @@ public interface InstructorRepository extends CrudRepository<Instructor, Long> {
     @Query(value = "delete from Instructor i where i.name=:name")
     void deleteInstructorByName(String name);
 
+    boolean existsByPhoneNumber(String phone);
+
 
 }

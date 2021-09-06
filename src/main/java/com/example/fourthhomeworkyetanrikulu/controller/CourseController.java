@@ -1,6 +1,7 @@
 package com.example.fourthhomeworkyetanrikulu.controller;
 
 import com.example.fourthhomeworkyetanrikulu.dto.CourseDTO;
+import com.example.fourthhomeworkyetanrikulu.dto.StudentDTO;
 import com.example.fourthhomeworkyetanrikulu.entity.Course;
 import com.example.fourthhomeworkyetanrikulu.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,8 @@ public class CourseController {
     }
 
     @DeleteMapping
-    public void deleteByObject(@RequestBody Course course) {
-        courseService.deleteByObject(course);
+    public void deleteByObject(@RequestBody CourseDTO courseDTO) {
+        courseService.deleteByObject(courseDTO);
     }
 
     @GetMapping("/nameInclude/{name}")
@@ -56,6 +57,12 @@ public class CourseController {
     public void deleteByName(@PathVariable String name) {
         courseService.deleteByName(name);
     }
+
+    @PostMapping("/addStudent")
+    public ResponseEntity<Course> addStudentToCourse(@RequestBody StudentDTO studentDTO, @RequestParam long courseId){
+        return new ResponseEntity<>(courseService.addStudentToCourse(studentDTO,courseId), HttpStatus.OK);
+    }
+
 
 }
 

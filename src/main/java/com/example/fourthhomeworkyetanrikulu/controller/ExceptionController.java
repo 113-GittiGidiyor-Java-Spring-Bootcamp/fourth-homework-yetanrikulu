@@ -39,12 +39,12 @@ public class ExceptionController {
         return new ResponseEntity<>(exceptionService.getStudentAgeNotValidExceptions(), HttpStatus.OK);
     }
 
-    @GetMapping("/courseAlreadyExist")
+    @GetMapping("/studentNumberExceed")
     public ResponseEntity<List<ExceptionTransactionLogger>> getStudentNumberExceedExceptionTransaction() {
         return new ResponseEntity<>(exceptionService.getStudentNumberForOneCourseExceededException(), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/getByDate")
     public ResponseEntity<List<ExceptionTransactionLogger>> getExceptionsByDate (@RequestParam String date){
         return new ResponseEntity<>(exceptionService.getExceptionsByDate(date), HttpStatus.OK);
 
